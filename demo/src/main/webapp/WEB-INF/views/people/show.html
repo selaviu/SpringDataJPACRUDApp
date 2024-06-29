@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Person</title>
+</head>
+<body>
+<p th:text="${person.lastName}"></p>
+<p th:text="${person.firstName}"></p>
+<p th:text="${person.yearOfBirth}"></p>
+
+<div th:if="${books == null}">
+    <!-- HTML-код, який буде відображений, якщо атрибут не є null -->
+    <p>This person dont take books</span></p>
+
+</div>
+<!-- Приклад змінної isExpired -->
+<div th:if="${books}">
+    <div th:each="book : ${books}">
+        <!-- Показати тільки прострочені книжки -->
+        <div th:if="${book.isExpired}" th:style="'color: red'">
+            <span th:text="${book.title + ', ' + book.author + ', ' + book.year}"></span>
+        </div>
+        <!-- Показати всі книжки, якщо isExpired не встановлено -->
+        <div th:if="${not book.isExpired}" th:style="'color: black'">
+            <span th:text="${book.title + ', ' + book.author + ', ' + book.year}"></span>
+        </div>
+    </div>
+</div>
+
+
+<a th:href="@{/people/{id}/edit(id=${person.getId()})}">edit</a>
+
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
+</body>
+</html>
