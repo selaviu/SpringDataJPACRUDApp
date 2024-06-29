@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book</title>
+</head>
+<body>
+<p th:text="${book.title}"></p>
+<p th:text="${book.author}"></p>
+<p th:text="${book.year}"></p>
+
+<div th:if="${owner}">
+    <!-- HTML-код, який буде відображений, якщо атрибут не є null -->
+    <p>This book is in <span th:text="${owner.lastName + ' ' + owner.firstName}"></span></p>
+    <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.id})}">
+        <button type="submit">Release</button>
+    </form>
+</div>
+<div th:if="${people}">
+    <form th:method="PATCH" th:action="@{/books/{id}/appoint(id=${book.id})}">
+        <p>This book is free now</p>
+        <select name="personId" id="person">
+            <option th:each="person : ${people}" 
+                    th:value="${person.id}" 
+                    th:text="${person.lastName + ' ' + person.firstName}">
+            </option>
+        </select>
+        <button type="submit">Appoint</button>
+    </form>
+</div>
+
+
+
+<form th:action="@{/books/{id}/edit(id=${book.getId()})}" th:method="GET">
+    <button type="submit">Edit</button>
+</form>
+
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
+</body>
+</html>
